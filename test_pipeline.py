@@ -30,7 +30,7 @@ def test_pipeline():
     assert X_train_proc.shape[0] == y_train.shape[0], "X_train and y_train shape mismatch"
     assert X_test_proc.shape[0] == y_test.shape[0], "X_test and y_test shape mismatch"
 
-    print("✅ Pipeline test passed!")
+    print(" Pipeline test passed!")
     print("X_train processed shape:", X_train_proc.shape)
     print("X_test processed shape:", X_test_proc.shape)
     print("y_train shape:", y_train.shape)
