@@ -1,87 +1,91 @@
-Churn Prediction Project
+<div align="center">
+  <br />
+  <img src="https://www.simplon.ma/images/Simplon_Maghreb_Rouge.png" alt="Simplon Maghreb Logo" width="300"/>
+  <br /><br />
 
-This project focuses on predicting customer churn for a telecom company using machine learning. The idea is to use past customer data (contracts, services, payments, etc.) to identify customers who are likely to leave, so the marketing team can take action earlier.
+  <div>
+    <img src="https://img.shields.io/badge/-Python-black?style=for-the-badge&logo=python&logoColor=white&color=3776AB" />
+    <img src="https://img.shields.io/badge/-Pandas-black?style=for-the-badge&logo=pandas&logoColor=white&color=150458" />
+    <img src="https://img.shields.io/badge/-NumPy-black?style=for-the-badge&logo=numpy&logoColor=white&color=013243" />
+    <img src="https://img.shields.io/badge/-Scikit--Learn-black?style=for-the-badge&logo=scikitlearn&logoColor=white&color=F7931E" />
+    <img src="https://img.shields.io/badge/-Matplotlib-black?style=for-the-badge&logo=plotly&logoColor=white&color=11557C" />
+    <img src="https://img.shields.io/badge/-Seaborn-black?style=for-the-badge&logoColor=white&color=4C9F70" />
+    <img src="https://img.shields.io/badge/-Jupyter-black?style=for-the-badge&logo=jupyter&logoColor=white&color=F37626" />
+    <img src="https://img.shields.io/badge/-Git-black?style=for-the-badge&logo=git&logoColor=white&color=F05032" />
+    <img src="https://img.shields.io/badge/-Jira-black?style=for-the-badge&logo=jira&logoColor=white&color=0052CC" />
+  </div>
 
-Project Overview
+  <h1>📊 Rapport Technique – Prédiction du Churn Client</h1>
+  <p><strong>Projet ML</strong> – Simplon Maghreb</p>
+</div>
 
-The work is divided into a few main parts:
+---
 
-Exploratory Data Analysis (EDA) in a Jupyter notebook to understand the data and spot patterns.
+## 🧩 1. Introduction
 
-A machine learning pipeline that handles data preparation, model training, and evaluation.
+L’objectif de ce projet est de construire un modèle de Machine Learning capable de prédire le **churn (désabonnement des clients)** à partir d’un ensemble de données clients.  
+Deux modèles ont été comparés : la **Régression Logistique** et le **Support Vector Machine (SVM)**.
 
-A K-Fold cross-validation script to get a better estimate of model performance.
+---
 
-A simple model comparison between Logistic Regression, Random Forest, and SVC.
+## ⚙️ 2. Modèles Testés
 
-Some basic unit tests to check that everything runs as expected.
+Les deux modèles ont été entraînés sur les mêmes données, avec une séparation **train/test de 80/20**.  
+Les métriques principales utilisées pour la comparaison sont :
 
-A short technical report to explain the approach and results.
+- **Accuracy** : taux de prédictions correctes globales  
+- **Precision** : proportion de prédictions positives correctes  
+- **Recall** : capacité à détecter les vrais positifs  
+- **F1 Score** : moyenne harmonique entre précision et rappel  
+- **AUC (Area Under Curve)** : mesure globale de performance du modèle
 
-How to Run
+---
 
-Clone the repo and install dependencies:
+## 📈 3. Résultats Obtenus
 
-git clone https://github.com/saidElamri/devaimachinelearning
-cd churn-prediction
-python -m venv .venv
-source .venv/bin/activate    # On Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+| Modèle                | Accuracy | Precision | Recall | F1 Score | AUC   |
+|-----------------------|-----------|------------|---------|-----------|--------|
+| **Régression Logistique** | **0.8176** | 0.6824     | **0.5818** | **0.6281** | **0.8607** |
+| SVM (SVC)             | 0.8119     | **0.6957** | 0.5147  | 0.5917   | 0.8463 |
 
+### 🔍 Analyse des Résultats
 
-Run the notebook to explore the data:
+- La **Régression Logistique** offre **une meilleure Recall et F1 Score**, ce qui signifie qu’elle identifie mieux les clients susceptibles de se désabonner.  
+- Le **SVM** obtient une précision légèrement supérieure, mais détecte moins bien les cas de churn.  
+- En termes de **AUC (0.8607 vs 0.8463)**, la régression logistique montre une **meilleure capacité de distinction** entre les classes.
 
-jupyter notebook notebooks/eda_churn.ipynb
+---
 
+## 📊 4. Visualisations et Interprétation
 
-Train the model:
+### 🔹 Matrice de Confusion
+- Pour la **Régression Logistique**, la majorité des clients fidèles (classe 0) sont bien prédits, et environ **58 % des churners** (classe 1) sont correctement identifiés.  
+- Le **SVM** confond davantage les churners avec les clients fidèles, ce qui diminue son rappel.
 
-python src/pipeline.py
+### 🔹 Courbe ROC
+- La **courbe ROC** de la Régression Logistique se situe légèrement au-dessus de celle du SVM.  
+- Cela confirme que le modèle est **plus robuste** sur l’ensemble des seuils de décision.
 
+---
 
-This will preprocess the data, train different models, compare them, and save the best model in the artifacts/ folder.
+## ✅ 5. Justification du Modèle Retenu
 
-Run the K-Fold validation:
+Le modèle retenu pour la mise en production est la **Régression Logistique**, pour les raisons suivantes :
 
-python src/kfold_validation.py
+1. **Performance globale supérieure** sur les métriques importantes (Recall, F1 Score, AUC).  
+2. **Interprétabilité facile** : chaque coefficient peut être interprété pour comprendre l’influence d’une variable sur la probabilité de churn.  
+3. **Simplicité et rapidité d’entraînement**, adaptée à une première mise en production.  
+4. **Bonne généralisation** sur les données de test.
 
+---
 
-This script trains the model across several folds and prints the accuracy for each fold, along with the average accuracy.
-You can easily switch between Logistic Regression, Random Forest, or SVC inside the file.
+## 🏁 6. Conclusion
 
-Run the tests:
+La **Régression Logistique** est le meilleur compromis entre **performance**, **interprétabilité** et **stabilité**.  
+Elle sera utilisée comme **modèle principal** pour la mise en production, tout en laissant la possibilité d’explorer d’autres modèles plus complexes (**Random Forest**, **XGBoost**) dans des itérations futures.
 
-pytest -q
+---
 
-
-The tests check things like data shapes and if the pipeline runs without errors.
-
-Results
-
-After testing different models, the one with the best balance between recall and F1-score was selected for the final pipeline.
-The K-Fold validation gives a more reliable estimate of model performance compared to a single train/test split.
-
-(Replace this section with your actual metrics and model choice.)
-
-Next Steps
-
-Deploy the model so it can be used in real campaigns.
-
-Monitor its performance regularly.
-
-Retrain it over time as customer behavior changes.
-
-Folder Structure
-.
-├── notebooks/
-│   └── EDA_Churn.ipynb
-├── src/
-│   ├── pipeline.py
-│   └── kfold_validation.py
-├── tests/
-│   └── test_pipeline.py
-├── artifacts/
-├── reports/
-│   └── rapport_technique.md
-├── requirements.txt
-└── README.md
+<div align="center">
+  <p >👨‍💻 Projet réalisé par <strong> <a href='https://github.com/saidElamri'> said Elamri </a></strong> | Simplon Maghreb</p>
+</div>
