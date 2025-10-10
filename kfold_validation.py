@@ -5,6 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import f1_score
 
 # 1 Load dataset
 df = pd.read_csv("Data.csv")
@@ -50,3 +51,16 @@ for fold, (train_idx, test_idx) in enumerate(kf.split(X), 1):
     scores.append(acc)
 
 print(f"\nAverage Accuracy: {sum(scores)/len(scores):.3f}")
+# f1 score
+
+f1_scores = []
+for fold, (train_idx, test_idx) in enumerate(kf.split(X), 1):
+    X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]
+    y_train, y_test = y.iloc[train_idx], y.iloc[test_idx]
+
+    model.fit(X_train, y_train)
+    preds = model.predict(X_test)
+    f1 = f1_score(y_test, preds)
+    print(f"Fold {fold} F1 Score: {f1:.3f}")
+    f1_scores.append(f1)
+    print(f"\nAverage F1 Score: {sum(f1_scores)/len(f1_scores):.3f}")  
